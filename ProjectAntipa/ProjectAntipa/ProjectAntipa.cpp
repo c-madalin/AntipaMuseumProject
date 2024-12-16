@@ -1,6 +1,3 @@
-@ - 0, 0 + 1, 771 @@
-// Lab8 - Shadow mapping.cpp : Defines the entry point for the console application.
-//
 #include <ctime>
 
 #include <stdlib.h>
