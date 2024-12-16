@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h> 
-
+#include <vector>
 #include <GL/glew.h>
 
 #define GLM_FORCE_CTOR_INIT 
@@ -180,6 +180,72 @@ public:
     }
 
 private:
+
+    bool CheckCollisionWithWalls(const glm::vec3& newPosition) const {
+        // Definirea peretilor
+        struct Wall {
+            float x;
+            float y;
+            float z;
+            float width;
+            float depth;
+            float height;
+        };
+
+        // Lista peretilor
+        std::vector<Wall> walls = {
+            //x,y,z,latime,adancime,inaltime
+            {-40.0f, 14.5f, -40.0f, 180.0f, 80.0f, 1.0f},//tavan
+            //camera 1
+            {-30.38f,0.0f, 20.5f, 30.38f, 20.8f,15.0f}, // Perete 1(spate)
+            {-24.28f,0.0f, -15.0f, 5.38f, 50.8f,15.0f},//perete 2(lateral)
+            {-11.58f,0.0f, -15.0f, 5.38f, 50.8f,15.0f},//perete 3(lateral)
+            {-30.38f,9.5f, -15.5f, 30.38f, 2.38f,15.0f}, // Perete 1(fat usa)
+            //{-40.0f, 14.5f, -40.0f, 80.0f, 80.0f, 1.0f},//tavan
+
+            //camera 2
+            //dino verde
+            {-30.38f,0.0f, -26.f, 10.f, 3.f,15.f}, // Perete 1(spate)
+            {-22.28f,0.0f, -25.0f, 5.38f, 50.8f,15.0f},//perete 2(lateral)
+            //camera
+            {-32.28f,0.0f, -48.0f, 5.38f, 50.8f,15.0f},//perete 2(lateral)
+            {-30.38f,0.0f, -68.5f, 30.38f, 20.8f,15.0f}, // Perete 1(spate)
+
+            //Trex
+            {-28.28f,0.0f, -45.3f, 19.38f, 6.8f,15.0f},//perete 2(lateral)
+
+            //tero
+            {-23.28f,6.5f, -37.0f, 16.38f, 17.8f,7.0f},//perete 2(lateral)
+
+            //triceratop
+            {-13.0f,0.0f, -26.3f, 18.38f, 14.8f,8.0f},//perete 2(lateral)
+            //perete 3 (lateral)
+            {-1.0f,0.0f, -62.5f, 5.38f, 25.8f,15.0f},//camera 2 si 3
+            {-1.0f,9.5f, -55.5f, 2.38f, 25.8f,15.0f},//camera 2 si 3 cea de la usa
+
+
+            // camera 3
+            {29.28f,0.0f, -50.0f, 5.38f, 50.8f,15.0f},//perete spate
+            {-0.38f,0.0f, -30.5f, 30.38f, 5.8f,15.0f}, // Perete lateral
+            {-0.38f,0.0f, -48.5f, 30.38f, 5.8f,15.0f}, // Perete lateral
+
+
+
+        };
+
+        // Verifica coliziunea pentru fiecare perete
+        for (const auto& wall : walls) {
+            if (newPosition.x >= wall.x && newPosition.x <= (wall.x + wall.width) &&
+                newPosition.y >= wall.y && newPosition.y <= (wall.y + wall.height) &&
+                newPosition.z >= wall.z && newPosition.z <= (wall.z + wall.depth)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
     void ProcessMouseMovement(float xOffset, float yOffset, bool constrainPitch = true)
     {
         yaw += xOffset;
