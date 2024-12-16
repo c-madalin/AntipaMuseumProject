@@ -1,4 +1,5 @@
-#include <ctime>
+// Lab8 - Shadow mapping.cpp : Defines the entry point for the console application.
+//
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -7,7 +8,7 @@
 #include <GL/glew.h>
 
 #define GLM_FORCE_CTOR_INIT 
-#include <GLM.hpp>a
+#include <GLM.hpp>
 #include <gtc/matrix_transform.hpp>
 #include <gtc/type_ptr.hpp>
 
@@ -187,7 +188,7 @@ private:
         //std::cout << "yaw = " << yaw << std::endl;
         //std::cout << "pitch = " << pitch << std::endl;
 
-        // Avem grij? s? nu ne d?m peste cap
+        // Avem grijã sã nu ne dãm peste cap
         if (constrainPitch) {
             if (pitch > 89.0f)
                 pitch = 89.0f;
@@ -195,7 +196,7 @@ private:
                 pitch = -89.0f;
         }
 
-        // Se modific? vectorii camerei pe baza unghiurilor Euler
+        // Se modificã vectorii camerei pe baza unghiurilor Euler
         UpdateCameraVectors();
     }
 
@@ -212,7 +213,7 @@ private:
     }
 
 protected:
-    const float cameraSpeedFactor = 2.5f;
+    const float cameraSpeedFactor = 250.f;
     const float mouseSensitivity = 0.1f;
 
     // Perspective properties
@@ -407,13 +408,12 @@ unsigned int CreateTexture(const std::string& strTexturePath)
 
     return textureId;
 }
-bool isLightRotating = false; // Flag to indicate if light is rotating
-float rotationSpeed = 0.7f; // Adjust for desired rotation speed
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window);
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods); // line 415
 
 void renderScene(const Shader& shader);
 void renderCube();
@@ -450,14 +450,14 @@ int main(int argc, char** argv)
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
     glfwSetCursorPosCallback(window, mouse_callback);
     glfwSetScrollCallback(window, scroll_callback);
-
+    glfwSetKeyCallback(window, key_callback); // 452 line
     // tell GLFW to capture our mouse
     //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glewInit();
 
     // Create camera
-    pCamera = new Camera(SCR_WIDTH, SCR_HEIGHT, glm::vec3(-10.0, 1.0, 20.0));
+    pCamera = new Camera(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0, 1.0, 3.0));
 
     // configure global opengl state
     // -----------------------------
@@ -513,22 +513,12 @@ int main(int argc, char** argv)
     // -----------
     while (!glfwWindowShouldClose(window))
     {
-        // Update light position based on rotation state and time
-        if (isLightRotating) {
-            double currentTime = glfwGetTime();
-            float angle = (float)currentTime * rotationSpeed;
-            lightPos.x = 2.0f * cos(angle);
-            lightPos.z = 2.0f * sin(angle);
-        }
         // per-frame time logic
         // --------------------
         float currentFrame = (float)glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
-        // input
-        // -----
-        processInput(window);
 
         // render
         // ------
@@ -538,7 +528,7 @@ int main(int argc, char** argv)
         // 1. render depth of scene to texture (from light's perspective)
         glm::mat4 lightProjection, lightView;
         glm::mat4 lightSpaceMatrix;
-        float near_plane = 1.0f, far_plane = 7.5f;
+        float near_plane = 1.0f, far_plane = 500.0f;
         lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
         lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
         lightSpaceMatrix = lightProjection * lightView;
@@ -602,6 +592,12 @@ void renderScene(const Shader& shader)
     shader.SetMat4("model", model);
     renderFloor();
 
+    // cube
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(0.0f, 1.75f, 0.0));
+    model = glm::scale(model, glm::vec3(0.75f));
+    shader.SetMat4("model", model);
+    renderCube();
 }
 
 unsigned int planeVAO = 0;
@@ -612,16 +608,15 @@ void renderFloor()
     if (planeVAO == 0) {
         // set up vertex data (and buffer(s)) and configure vertex attributes
         float planeVertices[] = {
-            // positions          // normals          // texcoords
-            52.7f, -0.5f, 50.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // Top-right corner (shifted further right)
-            -22.3f, -0.5f, 50.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // Top-left corner (shifted further right)
-            -22.3f, -0.5f, -50.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, // Bottom-left corner
-            52.7f, -0.5f, -50.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f  // Bottom-right corner
+            // positions            // normals         // texcoords
+            25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f,
+            -25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,   0.0f,  0.0f,
+            -25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f,
+
+            25.0f, -0.5f,  25.0f,  0.0f, 1.0f, 0.0f,  25.0f,  0.0f,
+            -25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,   0.0f, 25.0f,
+            25.0f, -0.5f, -25.0f,  0.0f, 1.0f, 0.0f,  25.0f, 25.0f
         };
-
-
-
-
         // plane VAO
         glGenVertexArrays(1, &planeVAO);
         glGenBuffers(1, &planeVBO);
@@ -717,38 +712,6 @@ void renderCube()
     glBindVertexArray(0);
 }
 
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-void processInput(GLFWwindow* window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(FORWARD, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(BACKWARD, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(LEFT, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(RIGHT, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(UP, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(DOWN, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
-        isLightRotating = true;
-    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        isLightRotating = false;
-
-
-    if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
-        int width, height;
-        glfwGetWindowSize(window, &width, &height);
-        pCamera->Reset(width, height);
-
-    }
-}
-
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
@@ -767,3 +730,31 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yOffset)
 {
     pCamera->ProcessMouseScroll((float)yOffset);
 }
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(FORWARD, (float)deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(BACKWARD, (float)deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(LEFT, (float)deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(RIGHT, (float)deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(UP, (float)deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(DOWN, (float)deltaTime);
+
+    if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
+        pCamera->Reset(width, height);
+
+    }
+}
+
+
