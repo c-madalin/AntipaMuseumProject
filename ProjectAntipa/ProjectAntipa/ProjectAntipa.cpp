@@ -663,6 +663,145 @@ void renderScene(const Shader& shader)
     renderCube();
 }
 
+void renderWall(const Shader& shader)
+{
+    // floor
+    glm::mat4 model, model1;
+    shader.SetMat4("model", model);
+    renderFloor();
+
+    //ROOM 1
+
+    //right from door room1
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-4.2f, 4.9f, -10.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderParallelepipedFromDoor();
+
+
+    // top door room1
+    model1 = glm::mat4();
+    model1 = glm::translate(model1, glm::vec3(-16.5f, 9.6f, -10.2));
+    model1 = glm::scale(model1, glm::vec3(5.2f));
+    shader.SetMat4("model", model1);
+    //renderParallelepipedTopDoor();
+
+    // left from door room1
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-22.2f, 4.9f, -10.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderParallelepipedFromDoor();
+
+    // lateral wall room1
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-25.0f, 4.9f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderParallelepipedPerpendiculuarFromDoor();
+
+    // ceiling room1
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-4.2f, 20.1f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderCeiling();
+
+    // lateral wall room1
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-15.6f, 4.9f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderParallelepipedParalelFirstDoor();
+
+    //ROOM2
+
+    // left lateral wall room2
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-25.0f, 4.9f, -9.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderParallelepipedPerpendiculuarFromDoor();
+
+    //right lateral wall room2
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(5.2f, 4.9f, -9.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderParallelepipedPerpendiculuarFromDoor();
+
+    // ceiling room2
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-4.2f, 20.1f, -9.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderCeiling();
+
+    //front lateral wall room2
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-15.6f, 4.9f, 26.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderParallelepipedParalelFirstDoor();
+
+    //ROOM3
+
+    // ceiling room3
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(27.0f, 20.1f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderCeiling();
+
+    //back lateral wall room3
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(15.5f, 4.9f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+   // renderParallelepipedParalelFirstDoor();
+
+    //front lateral wall room3
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(15.5f, 4.9f, -10.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderParallelepipedParalelFirstDoor();
+
+
+    //right lateral wall room3
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(37.2f, 4.9f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderParallelepipedPerpendiculuarFromDoor();
+
+    // top door room3
+    model1 = glm::mat4();
+    model1 = glm::translate(model1, glm::vec3(15.5f, 9.6f, -24.0f));
+    model1 = glm::scale(model1, glm::vec3(5.2f));
+    shader.SetMat4("model", model1);
+    //renderParallelepipedTopDoorRoom3();
+
+    //back from door room3
+    model = glm::mat4();
+    //4.9
+    model = glm::translate(model, glm::vec3(-5.3f, 4.9f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    //renderParallelepipedFromDoor3();
+
+    //front from door room3
+    model = glm::mat4();
+    //4.9
+    model = glm::translate(model, glm::vec3(-4.25f, 4.9f, -22.0));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+   // renderParallelepipedFromDoor3Front();
+}
+
+
+
 unsigned int planeVAO = 0;
 void renderFloor()
 {
