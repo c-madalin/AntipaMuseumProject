@@ -1,3 +1,4 @@
+#include <ctime>
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h> 
@@ -14,9 +15,12 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+//#include "OBJ_Loader.h"
+
 
 #pragma comment (lib, "glfw3dll.lib")
 #pragma comment (lib, "glew32.lib")
@@ -25,6 +29,8 @@
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+
+//objl::Loader Loader;
 
 enum ECameraMovementType
 {
@@ -139,8 +145,15 @@ public:
             break;
         case ECameraMovementType::DOWN:
             position -= up * velocity;
+
+            if (position.y < 0)
+                position.y = 0;
             break;
         }
+        /*if (!CheckCollisionWithWalls(position))
+        {
+            position = newPosition;
+        }*/
     }
 
     void MouseControl(float xPos, float yPos)
@@ -472,14 +485,30 @@ unsigned int CreateTexture(const std::string& strTexturePath)
     return textureId;
 }
 
+bool isLightRotating = false;
+float rotationSpeed = 0.8f;
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window);
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods); // line 415
 
+//Decorations
+
+void renderWall(const Shader& shader);
+void renderParallelepipedFromDoor();
+void renderParallelepipedFromDoor3();
+void renderParallelepipedFromDoor3Front();
+void renderParallelepipedTopDoor();
+void renderParallelepipedTopDoorRoom3();
+void renderFloor1(const Shader& shader);
+void renderCeiling();
+
+void renderGrassGround(const Shader& shader);
+void renderGround(const Shader& shader);
+void renderGround();
 void renderScene(const Shader& shader);
-void renderCube();
+//void renderCube();
 void renderFloor();
 
 // timing
