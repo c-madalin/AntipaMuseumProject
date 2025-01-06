@@ -491,7 +491,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window);
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods); // line 415
+//void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods); // line 415
 
 //Decorations
 
@@ -599,6 +599,21 @@ void renderForthSnake();
 void renderGlassWindows(const Shader& shader);
 void renderGlassWindows();
 
+//DECORATIONS
+
+void renderSavannahTree(const Shader& shader);
+void renderSavannahTree();
+void renderBirdTree(const Shader& shader);
+void renderParallelepipedParalelFirstDoor();
+
+void renderNest(const Shader& shader);
+void renderSecondNest(const Shader& shader);
+void renderNest();
+
+void renderGrassGround(const Shader& shader);
+
+void renderGround(const Shader& shader);
+void renderGround();
 
 
 void renderScene(const Shader& shader);
@@ -609,11 +624,38 @@ void renderFloor();
 double deltaTime = 0.0f;	// time between current frame and last frame
 double lastFrame = 0.0f;
 
+//namespace fs = std::filesystem;
+unsigned int leafTexture;
+
+float radius = 2.0f;
+float speed = 0.0f;
+float angle = 0.0f;
+
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+    if (key == GLFW_KEY_L && action == GLFW_PRESS)
+    {
+        speed = 1.0f;
+    }
+    if (key == GLFW_KEY_S && action == GLFW_PRESS)
+    {
+        speed = 0.0f;
+    }
+
+}
+
+
 int main(int argc, char** argv)
 {
     std::string strFullExeFileName = argv[0];
     std::string strExePath;
     const size_t last_slash_idx = strFullExeFileName.rfind('\\');
+
+    size_t last_slash_idx1 = strFullExeFileName.find_last_of("\\");
+    size_t last_slash_idx2 = strFullExeFileName.find_last_of("\\", last_slash_idx1 - 1);
+    size_t last_slash_idx3 = strFullExeFileName.find_last_of("\\", last_slash_idx2 - 1);
+
+
     if (std::string::npos != last_slash_idx) {
         strExePath = strFullExeFileName.substr(0, last_slash_idx);
     }
