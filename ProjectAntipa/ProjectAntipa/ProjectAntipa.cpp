@@ -659,7 +659,7 @@ int main(int argc, char** argv)
     if (std::string::npos != last_slash_idx) {
         strExePath = strFullExeFileName.substr(0, last_slash_idx);
     }
-
+    std::cout << strExePath << "\n";
     // glfw: initialize and configure
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -667,7 +667,7 @@ int main(int argc, char** argv)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // glfw window creation
-    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Lab8 - Maparea umbrelor", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Proiect Muzeu Antipa", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -680,12 +680,12 @@ int main(int argc, char** argv)
     glfwSetScrollCallback(window, scroll_callback);
     glfwSetKeyCallback(window, key_callback); // 452 line
     // tell GLFW to capture our mouse
-    //glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
     glewInit();
 
     // Create camera
-    pCamera = new Camera(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0, 1.0, 3.0));
+    pCamera = new Camera(SCR_WIDTH, SCR_HEIGHT, glm::vec3(-15.0, 1.0, 20.0));
 
     // configure global opengl state
     // -----------------------------
@@ -696,13 +696,80 @@ int main(int argc, char** argv)
     Shader shadowMappingShader("ShadowMapping.vs", "ShadowMapping.fs");
     Shader shadowMappingDepthShader("ShadowMappingDepth.vs", "ShadowMappingDepth.fs");
 
+    Shader shadowMappingShader1("ShadowMapping.vs", "ShadowMapping.fs");
+    Shader shadowMappingDepthShader1("ShadowMappingDepth.vs", "ShadowMappingDepth.fs");
     // load textures
     // -------------
     unsigned int floorTexture = CreateTexture(strExePath + "\\ColoredFloor.png");
+    unsigned int wallTexture = CreateTexture(strExePath + );
+    unsigned int giraffeTexture = CreateTexture(strExePath + );
+    unsigned int cheetahTexture = CreateTexture(strExePath + );
+    unsigned int monkeyTexture = CreateTexture(strExePath + );
+    unsigned int pantherTexture = CreateTexture(strExePath + );
+    unsigned int wolfTexture = CreateTexture(strExePath + );
+    unsigned int foxTexture = CreateTexture(strExePath + );
+    unsigned int bearTexture = CreateTexture(strExePath + );
+    unsigned int deerTexture = CreateTexture(strExePath + );
+    unsigned int rabbitTexture = CreateTexture(strExePath + );
+
+    unsigned int savannahGroundTexture = CreateTexture(strExePath + );
+
+    unsigned int grassGroundTexture = CreateTexture(strExePath +);
+    unsigned int dinoTero = CreateTexture(strExePath + );
+    unsigned int dinoTrex = CreateTexture(strExePath + );
+    unsigned int dinoStego = CreateTexture(strExePath + );
+    unsigned int dinoSpino = CreateTexture(strExePath + );
+
+    //unsigned int dinoTero = CreateTexture(strExePath + "\\terodactil.jpg");
+    unsigned int duckTexture = CreateTexture(strExePath + );
+    unsigned int parrotTexture = CreateTexture(strExePath + );
+    unsigned int pelicanTexture = CreateTexture(strExePath + );
+    unsigned int heronTexture = CreateTexture(strExePath + );
+    unsigned int babyDuckTexture = CreateTexture(strExePath + );
+    unsigned int secondDuckTexture = CreateTexture(strExePath + );
+    unsigned int redBirdTexture = CreateTexture(strExePath + );
+    unsigned int pigeonTexture = CreateTexture(strExePath + );
+    unsigned int glassTexture = CreateTexture(strExePath + );
+    unsigned int woodTexture = CreateTexture(strExePath + );
+    unsigned int firstSnakeTexture = CreateTexture(strExePath + );
+    unsigned int secondSnakeTexture = CreateTexture(strExePath + );
+    unsigned int thirdSnakeTexture = CreateTexture(strExePath + );
+
+    unsigned int treeTexture = CreateTexture(strExePath + );
+    leafTexture = CreateTexture(strExePath + );
+
+    unsigned int nestTexture = CreateTexture(strExePath + );
+
+
+    // std::string strExePath; // Asigur?-te c? aceast? variabil? este ini?ializat? corect  n codul t?u
+     // Restul codului pentru ini?ializarea lui strExePath ...
+
+    //std::string imagePath = strExePath + "\\Museum\\Animals\\Giraffe\\giraffe.jpg";
+    std::string imagePath = strExePath + ;
+
+
+
+
+    // Verific? dac? directorul "Museum" exist?
+    //if (fs::exists(strExePath + "\\Museum")) {
+    //    // Verific? dac? fi?ierul "giraffe.jpg" exist?  n interiorul directorului "Museum"
+    //    if (fs::exists(imagePath)) {
+    //        std::cout << "Calea catre imagine este corecta.\n";
+    //    }
+    //    else {
+    //        std::cout << "Fisierul 'giraffe.jpg' nu exista  n directorul 'Museum'.\n";
+    //    }
+    //}
+    //else {
+    //    std::cout << "Directorul 'Museum' nu exista  n calea specificata.\n";
+    //}
+
+
+
 
     // configure depth map FBO
     // -----------------------
-    const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
+    const unsigned int SHADOW_WIDTH = 1440, SHADOW_HEIGHT = 1440;
     unsigned int depthMapFBO;
     glGenFramebuffers(1, &depthMapFBO);
     // create depth texture
@@ -733,7 +800,7 @@ int main(int argc, char** argv)
 
     // lighting info
     // -------------
-    glm::vec3 lightPos(-2.0f, 4.0f, -1.0f);
+    glm::vec3 lightPos(-0.5f, 10.0f, 0.5f);
 
     glEnable(GL_CULL_FACE);
 
