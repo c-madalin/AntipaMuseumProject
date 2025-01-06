@@ -507,6 +507,100 @@ void renderCeiling();
 void renderGrassGround(const Shader& shader);
 void renderGround(const Shader& shader);
 void renderGround();
+
+//Camera 1
+
+void renderWolf(const Shader& shader);
+void renderWolf();
+
+void renderRabbit(const Shader& shader);
+void renderRabbit();
+
+void renderBear(const Shader& shader);
+void renderBear();
+
+void renderMonkey(const Shader& shader);
+void renderMonkey();
+
+void renderCheetah(const Shader& shader);
+void renderCheetah();
+
+void renderPanther(const Shader& shader);
+void renderPanther();
+
+void renderFox(const Shader& shader);
+void renderFox();
+
+void renderGiraffe(const Shader& shader);
+void renderGiraffe();
+
+void renderDeer(const Shader& shader);
+void renderDeer();
+
+//Camera 2
+
+void renderDinoTero(const Shader& shader);
+void renderDinoTero();
+
+void renderDinoStego(const Shader& shader);
+void renderDinoStego();
+
+void renderDinoSpino(const Shader& shader);
+void renderDinoSpino();
+
+void renderDinoTrex(const Shader& shader);
+void renderDinoTrex();
+
+
+//Camera 3
+
+void renderDuck(const Shader& shader);
+void renderDuck();
+
+void renderParrot(const Shader& shader);
+void renderParrot();
+
+void renderPelican(const Shader& shader);
+void renderPelican();
+
+void renderHeron(const Shader& shader);
+void renderHeron();
+
+void renderBabyDuck(const Shader& shader);
+void renderBabyDuck();
+
+void renderSecondDuck(const Shader& shader);
+void renderSecondDuck();
+
+void renderRedBird(const Shader& shader);
+void renderRedBird();
+
+void renderPigeon(const Shader& shader);
+void renderPigeon();
+
+void renderGrassGroundRoom3(const Shader& shader);
+
+void renderWood(const Shader& shader);
+void renderWood();
+
+void renderFirstSnake(const Shader& shader);
+void renderFirstSnake();
+
+void renderSecondSnake(const Shader& shader);
+void renderSecondSnake();
+
+void renderThirdSnake(const Shader& shader);
+void renderThirdSnake();
+
+
+void renderForthSnake(const Shader& shader);
+void renderForthSnake();
+
+void renderGlassWindows(const Shader& shader);
+void renderGlassWindows();
+
+
+
 void renderScene(const Shader& shader);
 //void renderCube();
 void renderFloor();
