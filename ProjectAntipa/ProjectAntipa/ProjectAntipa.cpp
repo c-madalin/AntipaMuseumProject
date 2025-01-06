@@ -1276,6 +1276,7 @@ int main(int argc, char** argv)
         renderGlassWindows(shadowMappingShader);
         glDisable(GL_BLEND);
 
+
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
         glfwPollEvents();
