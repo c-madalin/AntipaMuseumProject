@@ -804,16 +804,110 @@ int main(int argc, char** argv)
 
     glEnable(GL_CULL_FACE);
 
+    float vertices[] = {
+        // Fa?a frontal?
+       -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+        0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+       -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+       -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+
+       // Fa?a din spate
+      -0.5f, -0.5f, -60.5f,  0.0f,  0.0f, -1.0f,
+       0.5f, -0.5f, -60.5f,  0.0f,  0.0f, -1.0f,
+       0.5f,  0.5f, -60.5f,  0.0f,  0.0f, -1.0f,
+       0.5f,  0.5f, -60.5f,  0.0f,  0.0f, -1.0f,
+      -0.5f,  0.5f, -60.5f,  0.0f,  0.0f, -1.0f,
+      -0.5f, -0.5f, -60.5f,  0.0f,  0.0f, -1.0f,
+
+      // Fa?a de sus
+     -0.5f,  0.5f, -100.5f,  0.0f,  1.0f,  0.0f,
+      0.5f,  0.5f, -100.5f,  0.0f,  1.0f,  0.0f,
+      0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+      0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+     -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+     -0.5f,  0.5f, -100.5f,  0.0f,  1.0f,  0.0f,
+
+     // Fa?a de jos
+    -0.5f, -0.5f, -100.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f, -100.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+     0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+    -0.5f, -0.5f, -100.5f,  0.0f, -1.0f,  0.0f,
+
+    // Fa?a din dreapta
+    0.5f, -0.5f, -100.5f,  1.0f,  0.0f, 0.0f,
+    0.5f, -0.5f,  0.5f,  1.0f,  0.0f, 0.0f,
+    0.5f,  0.5f,  0.5f,  1.0f,  0.0f, 0.0f,
+    0.5f,  0.5f,  0.5f,  1.0f,  0.0f, 0.0f,
+    0.5f,  0.5f, -100.5f,  1.0f,  0.0f, 0.0f,
+    0.5f, -0.5f, -100.5f,  1.0f,  0.0f, 0.0f,
+
+    // Fa?a din st nga
+   -0.5f, -0.5f, -100.5f, -1.0f,  0.0f, 0.0f,
+   -0.5f, -0.5f,  0.5f, -1.0f,  0.0f, 0.0f,
+   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f, 0.0f,
+   -0.5f,  0.5f,  0.5f, -1.0f,  0.0f, 0.0f,
+   -0.5f,  0.5f, -100.5f, -1.0f,  0.0f, 0.0f,
+   -0.5f, -0.5f, -100.5f, -1.0f,  0.0f, 0.0f
+    };
+
+    unsigned int VBO, cubeVAO;
+    glGenVertexArrays(1, &cubeVAO);
+    glGenBuffers(1, &VBO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+
+    glBindVertexArray(cubeVAO);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    // normal attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    unsigned int lightVAO;
+    glGenVertexArrays(1, &lightVAO);
+    glBindVertexArray(lightVAO);
+
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    glm::vec3 lightPos1(-13.5f, 14.0f, 12.0f);
+    glm::vec3 lightPos2(-15.5f, 14.0f, 12.0f);
+    glm::vec3 lightPos3(-13.5f, 14.0f, -20.0f);
+    glm::vec3 lightPos4(-15.5f, 14.0f, -20.0f);
+    glm::vec3 lightPos5(26.6f, 14.0f, -30.0f);
+    glm::vec3 lightPos6(26.6f, 14.0f, -32.0f);
+
+
+
+    Shader lightingShader("PhongLight.vs", "PhongLight.fs");
+    Shader lampShader("Lamp.vs", "Lamp.fs");
+
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
+        if (isLightRotating) {
+            double currentTime = glfwGetTime();
+            float angle = (float)currentTime * rotationSpeed;
+            lightPos.x = 2.0f * cos(angle);
+            lightPos.z = 2.0f * sin(angle);
+        }
+
         // per-frame time logic
         // --------------------
         float currentFrame = (float)glfwGetTime();
         deltaTime = currentFrame - lastFrame;
         lastFrame = currentFrame;
 
+        processInput(window);
 
         // render
         // ------
@@ -823,8 +917,8 @@ int main(int argc, char** argv)
         // 1. render depth of scene to texture (from light's perspective)
         glm::mat4 lightProjection, lightView;
         glm::mat4 lightSpaceMatrix;
-        float near_plane = 1.0f, far_plane = 500.0f;
-        lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+        float near_plane = -2.0f, far_plane = 30.0f;
+        lightProjection = glm::ortho(-50.0f, 50.0f, -50.0f, 50.0f, near_plane, far_plane);
         lightView = glm::lookAt(lightPos, glm::vec3(0.0f), glm::vec3(0.0, 1.0, 0.0));
         lightSpaceMatrix = lightProjection * lightView;
 
@@ -835,11 +929,58 @@ int main(int argc, char** argv)
         glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
         glClear(GL_DEPTH_BUFFER_BIT);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, floorTexture);
+
+        shadowMappingDepthShader.Use();
+        shadowMappingDepthShader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+
+
+        //glActiveTexture(GL_TEXTURE0);
+        //glBindTexture(GL_TEXTURE_2D, floorTexture);
         glEnable(GL_CULL_FACE);
         glCullFace(GL_FRONT);
-        renderScene(shadowMappingDepthShader);
+
+        renderGround(shadowMappingDepthShader);
+        renderGrassGround(shadowMappingDepthShader);
+        renderSavannahTree(shadowMappingDepthShader);
+        renderBirdTree(shadowMappingDepthShader);
+        renderGiraffe(shadowMappingDepthShader);
+        renderCheetah(shadowMappingDepthShader);
+        renderMonkey(shadowMappingDepthShader);
+        renderMonkey(shadowMappingDepthShader);
+        renderPanther(shadowMappingDepthShader);
+        renderFox(shadowMappingDepthShader);
+        renderBear(shadowMappingDepthShader);
+        renderDeer(shadowMappingDepthShader);
+        renderRabbit(shadowMappingDepthShader);
+        renderWolf(shadowMappingDepthShader);
+        renderDinoTero(shadowMappingDepthShader);
+        renderDinoSpino(shadowMappingDepthShader);
+        renderDinoStego(shadowMappingDepthShader);
+        renderDinoTrex(shadowMappingDepthShader);
+        renderNest(shadowMappingDepthShader);
+        renderSecondNest(shadowMappingDepthShader);
+        renderDuck(shadowMappingDepthShader);
+        //renderDuck(shadowMappingDepthShader);
+        renderParrot(shadowMappingDepthShader);
+        renderPelican(shadowMappingDepthShader);
+        renderHeron(shadowMappingDepthShader);
+        //renderBabyDuck(shadowMappingDepthShader);
+        renderSecondDuck(shadowMappingDepthShader);
+        renderRedBird(shadowMappingDepthShader);
+        renderPigeon(shadowMappingDepthShader);
+
+
+
+
+        renderBirdTree(shadowMappingDepthShader);
+        renderWood(shadowMappingDepthShader);
+        renderFirstSnake(shadowMappingDepthShader);
+        renderSecondSnake(shadowMappingDepthShader);
+        renderThirdSnake(shadowMappingDepthShader);
+        renderForthSnake(shadowMappingDepthShader);
+
+        renderGrassGroundRoom3(shadowMappingDepthShader);
+
         glCullFace(GL_BACK);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -865,6 +1006,275 @@ int main(int argc, char** argv)
         glBindTexture(GL_TEXTURE_2D, depthMap);
         glDisable(GL_CULL_FACE);
         renderScene(shadowMappingShader);
+
+        //Camera 1
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, savannahGroundTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderGround(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, grassGroundTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderGrassGround(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, treeTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderSavannahTree(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, treeTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderBirdTree(shadowMappingShader);
+
+
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, giraffeTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderGiraffe(shadowMappingShader);
+
+
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, cheetahTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderCheetah(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, monkeyTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderMonkey(shadowMappingShader);
+
+
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, pantherTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderPanther(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, foxTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderFox(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, bearTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderBear(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, deerTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderDeer(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, rabbitTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderRabbit(shadowMappingShader);
+
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, wolfTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderWolf(shadowMappingShader);
+
+
+        //Camera 2
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, dinoTero);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderDinoTero(shadowMappingShader);
+
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, dinoStego);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderDinoStego(shadowMappingShader);
+
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, dinoSpino);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderDinoSpino(shadowMappingShader);
+
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, dinoTrex);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderDinoTrex(shadowMappingShader);
+
+
+        //Camera 3
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, nestTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderNest(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, nestTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderSecondNest(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, duckTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderDuck(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, parrotTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderParrot(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, pelicanTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderPelican(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, heronTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderHeron(shadowMappingShader);
+
+        //glActiveTexture(GL_TEXTURE0);
+        //glBindTexture(GL_TEXTURE_2D, babyDuckTexture);
+        //glActiveTexture(GL_TEXTURE1);
+        //glBindTexture(GL_TEXTURE_2D, depthMap);
+        //glDisable(GL_CULL_FACE);
+        //renderBabyDuck(shadowMappingShader);
+
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, secondDuckTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderSecondDuck(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, redBirdTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderRedBird(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, pigeonTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderPigeon(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, grassGroundTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderGrassGroundRoom3(shadowMappingShader);
+
+        /*	glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, aquariumTexture);
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, depthMap);
+            glDisable(GL_CULL_FACE);
+            renderAquarium(shadowMappingShader);*/
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, woodTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderWood(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, firstSnakeTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderFirstSnake(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, secondSnakeTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderSecondSnake(shadowMappingShader);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, thirdSnakeTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderThirdSnake(shadowMappingShader);
+
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, secondSnakeTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderForthSnake(shadowMappingShader);
+
+        //transparent object
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, glassTexture);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, depthMap);
+        glDisable(GL_CULL_FACE);
+        renderGlassWindows(shadowMappingShader);
+        glDisable(GL_BLEND);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
