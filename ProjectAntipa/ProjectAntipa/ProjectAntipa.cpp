@@ -276,7 +276,7 @@ private:
     }
 
 protected:
-    const float cameraSpeedFactor = 250.f;
+    const float cameraSpeedFactor = 1050.f;
     const float mouseSensitivity = 0.1f;
 
     // Perspective properties
@@ -648,19 +648,21 @@ int main(int argc, char** argv)
 
 // renders the 3D scene
 // --------------------
-void renderScene(const Shader& shader)
-{
-    // floor
+void renderScene(const Shader& shader) {
+    // Creeaz? un cub mare
     glm::mat4 model;
-    shader.SetMat4("model", model);
-    renderFloor();
-
-    // cube
     model = glm::mat4();
-    model = glm::translate(model, glm::vec3(0.0f, 1.75f, 0.0));
-    model = glm::scale(model, glm::vec3(0.75f));
+    model = glm::scale(model, glm::vec3(50.0f)); // Cubul este suficient de mare pentru a acoperi camera
     shader.SetMat4("model", model);
+
+    // Inverseaz? fa?etele (pentru a desena partea interioar?)
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT); // Ascunde fa?etele externe ?i deseneaz? interiorul cubului
+
     renderCube();
+
+    // Revine la comportamentul normal al cull face
+    glCullFace(GL_BACK);
 }
 
 
