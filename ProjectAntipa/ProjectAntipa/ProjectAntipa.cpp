@@ -4978,6 +4978,486 @@ void renderWood(const Shader& shader)
 
 }
 
+unsigned int indicesWood[720000];
+objl::Vertex verWood[820000];
+GLuint  woodVAO, woodVBO, woodEBO;
+
+void renderWood()
+{
+    // initialize (if necessary)
+    if (woodVAO == 0)
+    {
+
+        std::vector<float> verticesC;
+        std::vector<float> indicesC;
+
+
+
+        Loader.LoadFile("");
+
+
+        ;		objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verWood[j] = v;
+        }
+        for (int j = 0; j < verticesC.size(); j++)
+        {
+            vertices[j] = verticesC.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicesC.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesWood[j] = indicesC.at(j);
+        }
+
+        glGenVertexArrays(1, &woodVAO);
+        glGenBuffers(1, &woodVBO);
+        glGenBuffers(1, &woodEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, woodVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verWood), verWood, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, woodEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesWood), &indicesWood, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(woodVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(woodVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, woodVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, woodEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+void renderFirstSnake(const Shader& shader)
+{
+
+    //parrot
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(7.0f, 5.5f, -45.9f));
+    model = glm::scale(model, glm::vec3(0.5f));
+
+
+
+
+    shader.SetMat4("model", model);
+    renderFirstSnake();
+}
+
+unsigned int indicesFirstSnake[720000];
+objl::Vertex verFirstSnake[820000];
+GLuint  firstSnakeVAO, firstSnakeVBO, firstSnakeEBO;
+
+void renderFirstSnake()
+{
+    // initialize (if necessary)
+    if (firstSnakeVAO == 0)
+    {
+
+        std::vector<float> verticesC;
+        std::vector<float> indicesC;
+
+
+
+        Loader.LoadFile("");
+
+        ;		objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verFirstSnake[j] = v;
+        }
+        for (int j = 0; j < verticesC.size(); j++)
+        {
+            vertices[j] = verticesC.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicesC.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesFirstSnake[j] = indicesC.at(j);
+        }
+
+        glGenVertexArrays(1, &firstSnakeVAO);
+        glGenBuffers(1, &firstSnakeVBO);
+        glGenBuffers(1, &firstSnakeEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, firstSnakeVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verFirstSnake), verFirstSnake, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, firstSnakeEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesFirstSnake), &indicesFirstSnake, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(firstSnakeVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(firstSnakeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, firstSnakeVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, firstSnakeEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+void renderSecondSnake(const Shader& shader)
+{
+
+    //parrot
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(12.3f, 4.5f, -45.7f));
+    model = glm::scale(model, glm::vec3(0.5f));
+    //model = glm::rotate(model, glm::radians(60.f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+
+
+    shader.SetMat4("model", model);
+    renderSecondSnake();
+}
+
+unsigned int indicesSecondSnake[720000];
+objl::Vertex verSecondSnake[820000];
+GLuint  secondSnakeVAO, secondSnakeVBO, secondSnakeEBO;
+
+void renderSecondSnake()
+{
+    // initialize (if necessary)
+    if (secondSnakeVAO == 0)
+    {
+
+        std::vector<float> verticesC;
+        std::vector<float> indicesC;
+
+
+
+        Loader.LoadFile("");
+
+        ;		objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verSecondSnake[j] = v;
+        }
+        for (int j = 0; j < verticesC.size(); j++)
+        {
+            vertices[j] = verticesC.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicesC.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesSecondSnake[j] = indicesC.at(j);
+        }
+
+        glGenVertexArrays(1, &secondSnakeVAO);
+        glGenBuffers(1, &secondSnakeVBO);
+        glGenBuffers(1, &secondSnakeEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, secondSnakeVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verSecondSnake), verSecondSnake, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, secondSnakeEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesSecondSnake), &indicesSecondSnake, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(secondSnakeVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(secondSnakeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, secondSnakeVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, secondSnakeEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+void renderThirdSnake(const Shader& shader)
+{
+
+    //parrot
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(20.1f, 2.8f, -45.7f));
+    model = glm::scale(model, glm::vec3(25.f));
+    model = glm::rotate(model, glm::radians(60.f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+
+
+    shader.SetMat4("model", model);
+    renderThirdSnake();
+}
+
+unsigned int indicesThirdSnake[720000];
+objl::Vertex verThirdSnake[820000];
+GLuint  thirdSnakeVAO, thirdSnakeVBO, thirdSnakeEBO;
+
+void renderThirdSnake()
+{
+    // initialize (if necessary)
+    if (thirdSnakeVAO == 0)
+    {
+
+        std::vector<float> verticesC;
+        std::vector<float> indicesC;
+
+
+
+        Loader.LoadFile("");
+
+        ;		objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verThirdSnake[j] = v;
+        }
+        for (int j = 0; j < verticesC.size(); j++)
+        {
+            vertices[j] = verticesC.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicesC.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesThirdSnake[j] = indicesC.at(j);
+        }
+
+        glGenVertexArrays(1, &thirdSnakeVAO);
+        glGenBuffers(1, &thirdSnakeVBO);
+        glGenBuffers(1, &thirdSnakeEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, thirdSnakeVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verThirdSnake), verThirdSnake, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, thirdSnakeEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesThirdSnake), &indicesThirdSnake, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(thirdSnakeVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(thirdSnakeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, thirdSnakeVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, thirdSnakeEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+void renderForthSnake(const Shader& shader)
+{
+
+    //parrot
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(25.4f, 2.8f, -45.7f));
+    model = glm::scale(model, glm::vec3(25.f));
+    model = glm::rotate(model, glm::radians(60.f), glm::vec3(0.0f, 0.0f, -1.0f));
+    model = glm::rotate(model, glm::radians(20.f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+
+
+    shader.SetMat4("model", model);
+    renderForthSnake();
+}
+
+unsigned int indicesForthSnake[720000];
+objl::Vertex verForthSnake[820000];
+GLuint  forthSnakeVAO, forthSnakeVBO, forthSnakeEBO;
+
+void renderForthSnake()
+{
+    // initialize (if necessary)
+    if (forthSnakeVAO == 0)
+    {
+
+        std::vector<float> verticesC;
+        std::vector<float> indicesC;
+
+
+
+        Loader.LoadFile("");
+
+        ;		objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verForthSnake[j] = v;
+        }
+        for (int j = 0; j < verticesC.size(); j++)
+        {
+            vertices[j] = verticesC.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicesC.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesForthSnake[j] = indicesC.at(j);
+        }
+
+        glGenVertexArrays(1, &forthSnakeVAO);
+        glGenBuffers(1, &forthSnakeVBO);
+        glGenBuffers(1, &forthSnakeEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, forthSnakeVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verForthSnake), verForthSnake, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, forthSnakeEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesForthSnake), &indicesForthSnake, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(forthSnakeVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(forthSnakeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, forthSnakeVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, forthSnakeEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
 
 
 
@@ -5056,47 +5536,31 @@ void renderWood(const Shader& shader)
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-    // make sure the viewport matches the new window dimensions; note that width and 
-    // height will be significantly larger than specified on retina displays.
-    pCamera->Reshape(width, height);
-}
 
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-    pCamera->MouseControl((float)xpos, (float)ypos);
-}
-
-void scroll_callback(GLFWwindow* window, double xoffset, double yOffset)
-{
-    pCamera->ProcessMouseScroll((float)yOffset);
-}
-
-void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-
-    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(FORWARD, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(BACKWARD, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(LEFT, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(RIGHT, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(UP, (float)deltaTime);
-    if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
-        pCamera->ProcessKeyboard(DOWN, (float)deltaTime);
-
-    if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
-        int width, height;
-        glfwGetWindowSize(window, &width, &height);
-        pCamera->Reset(width, height);
-
-    }
-}
+//void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+//{
+//    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+//        glfwSetWindowShouldClose(window, true);
+//
+//    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+//        pCamera->ProcessKeyboard(FORWARD, (float)deltaTime);
+//    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+//        pCamera->ProcessKeyboard(BACKWARD, (float)deltaTime);
+//    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+//        pCamera->ProcessKeyboard(LEFT, (float)deltaTime);
+//    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+//        pCamera->ProcessKeyboard(RIGHT, (float)deltaTime);
+//    if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
+//        pCamera->ProcessKeyboard(UP, (float)deltaTime);
+//    if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
+//        pCamera->ProcessKeyboard(DOWN, (float)deltaTime);
+//
+//    if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
+//        int width, height;
+//        glfwGetWindowSize(window, &width, &height);
+//        pCamera->Reset(width, height);
+//
+//    }
+//}
 
 
