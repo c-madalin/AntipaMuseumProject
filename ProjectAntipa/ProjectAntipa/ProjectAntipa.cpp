@@ -701,51 +701,51 @@ int main(int argc, char** argv)
     // load textures
     // -------------
     unsigned int floorTexture = CreateTexture(strExePath + "\\ColoredFloor.png");
-    unsigned int wallTexture = CreateTexture(strExePath + );
-    unsigned int giraffeTexture = CreateTexture(strExePath + );
-    unsigned int cheetahTexture = CreateTexture(strExePath + );
-    unsigned int monkeyTexture = CreateTexture(strExePath + );
-    unsigned int pantherTexture = CreateTexture(strExePath + );
-    unsigned int wolfTexture = CreateTexture(strExePath + );
-    unsigned int foxTexture = CreateTexture(strExePath + );
-    unsigned int bearTexture = CreateTexture(strExePath + );
-    unsigned int deerTexture = CreateTexture(strExePath + );
-    unsigned int rabbitTexture = CreateTexture(strExePath + );
+    unsigned int wallTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Walls\\wall.jpg");
+    unsigned int giraffeTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Giraffe\\giraffe.jpg");
+    unsigned int cheetahTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Cheetah\\cheetah.png");
+    unsigned int monkeyTexture = CreateTexture(strExePath +"\\ProjectAntipa\\Objects\\Animals\\Monkey1\\Gorilla_Bake1_PBR StoA_Diffuse.png");
+    unsigned int pantherTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Panther\\panther.jpg");
+    unsigned int wolfTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Wolf\\WOLF.png");
+    unsigned int foxTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Fox\\Mat_FoxCoat_WIP.05.png");
+    unsigned int bearTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Bear\\bear.jpg");
+    unsigned int deerTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Deer\\deer1.jpg");
+    unsigned int rabbitTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Rabbit\\rabbit.jpg");
 
-    unsigned int savannahGroundTexture = CreateTexture(strExePath + );
+    unsigned int savannahGroundTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Walls\\SavannahGround\\test.jpg");
 
-    unsigned int grassGroundTexture = CreateTexture(strExePath +);
-    unsigned int dinoTero = CreateTexture(strExePath + );
-    unsigned int dinoTrex = CreateTexture(strExePath + );
-    unsigned int dinoStego = CreateTexture(strExePath + );
-    unsigned int dinoSpino = CreateTexture(strExePath + );
+    unsigned int grassGroundTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Walls\\Grass.jpg");
+    unsigned int dinoTero = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Dinosaur\\terodactil.jpg");
+    unsigned int dinoTrex = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Dinosaur2\\TrexColor01152015.jpeg");
+    unsigned int dinoStego = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\DinosaurSkeleton\\triceratops_Mat_baseColor.png");
+    unsigned int dinoSpino = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Dinosaur3\\Material__36_albedo.jpg");
 
-    //unsigned int dinoTero = CreateTexture(strExePath + "\\terodactil.jpg");
-    unsigned int duckTexture = CreateTexture(strExePath + );
-    unsigned int parrotTexture = CreateTexture(strExePath + );
-    unsigned int pelicanTexture = CreateTexture(strExePath + );
-    unsigned int heronTexture = CreateTexture(strExePath + );
-    unsigned int babyDuckTexture = CreateTexture(strExePath + );
-    unsigned int secondDuckTexture = CreateTexture(strExePath + );
-    unsigned int redBirdTexture = CreateTexture(strExePath + );
-    unsigned int pigeonTexture = CreateTexture(strExePath + );
-    unsigned int glassTexture = CreateTexture(strExePath + );
-    unsigned int woodTexture = CreateTexture(strExePath + );
-    unsigned int firstSnakeTexture = CreateTexture(strExePath + );
-    unsigned int secondSnakeTexture = CreateTexture(strExePath + );
-    unsigned int thirdSnakeTexture = CreateTexture(strExePath + );
+    unsigned int duckTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\duck2\\duck.jpg");
+    unsigned int parrotTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Parrot\\parrot.jpg");
+    unsigned int pelicanTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\Pelican\\12244_Bird_diff.jpg");
+    unsigned int heronTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\bird_00\\bird_dif2.png");
+    unsigned int babyDuckTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\BabyDuck\\Bird_diff.jpg");
+    unsigned int secondDuckTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\SecondDuck\\12252_Bird_v1_diff.jpg");
+    unsigned int redBirdTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\small_red_bird\\12212_Bird_diffuse.jpg");
+    unsigned int pigeonTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\pigen\\59.png");
+    unsigned int glassTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Glass\\glass2.jpg");
+    unsigned int woodTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Wood\\model.jpg");
+    unsigned int firstSnakeTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\FirstSnake\\1649403578571_1.png");
+    unsigned int secondSnakeTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\ThirdSnake\\Material.001.png");
+    unsigned int thirdSnakeTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Animals\\SecondSnake\\metalnessMap1.png");
 
-    unsigned int treeTexture = CreateTexture(strExePath + );
-    leafTexture = CreateTexture(strExePath + );
 
-    unsigned int nestTexture = CreateTexture(strExePath + );
+    unsigned int treeTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Tree\\savannahTree\\bark_0021.jpg");
+    leafTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Nest\\textures\\04___Default_Base_Color3.png");
+
+    unsigned int nestTexture = CreateTexture(strExePath + "\\ProjectAntipa\\Objects\\Nest\\textures\\04___Default_Base_Color3.png");
 
 
     // std::string strExePath; // Asigur?-te c? aceast? variabil? este ini?ializat? corect  n codul t?u
      // Restul codului pentru ini?ializarea lui strExePath ...
 
     //std::string imagePath = strExePath + "\\Museum\\Animals\\Giraffe\\giraffe.jpg";
-    std::string imagePath = strExePath + ;
+    std::string imagePath = strExePath + "\\ProjectAntipa\\Objects\\Animals\\Cheetah\\cheetah.png";
 
 
 
