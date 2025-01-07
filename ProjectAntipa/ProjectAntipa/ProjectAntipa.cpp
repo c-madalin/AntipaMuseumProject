@@ -19,7 +19,7 @@
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
-//#include "OBJ_Loader.h"
+#include "OBJ_Loader.h"
 
 
 #pragma comment (lib, "glfw3dll.lib")
@@ -30,7 +30,7 @@
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-//objl::Loader Loader;
+objl::Loader Loader;
 
 enum ECameraMovementType
 {
