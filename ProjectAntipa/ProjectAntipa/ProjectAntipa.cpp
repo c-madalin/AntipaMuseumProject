@@ -2269,6 +2269,550 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yOffset)
 }
 
 
+void renderGiraffe(const Shader& shader)
+{
+    //giraffe
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-23.5f, 4.5f, -1.5f));
+    model = glm::scale(model, glm::vec3(0.1f));
+    model = glm::rotate(model, glm::radians(50.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    // Adaugarea rota?iei spre dreapta
+    float rotationAngle = 120.0f; // Rotire spre dreapta
+    model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotire spre dreapta pe axa OZ
+
+    shader.SetMat4("model", model);
+    renderGiraffe();
+}
+
+float vertices[82000];
+unsigned int indices[72000];
+unsigned int indicesGr[72000];
+objl::Vertex verG[82000];
+unsigned int indicesG[72000];
+
+
+GLuint giraffeVAO, giraffeVBO, giraffeEBO;
+
+void renderGiraffe()
+{
+
+
+    // initialize (if necessary)
+    if (giraffeVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+        Loader.LoadFile(" ");
+
+        std::string filePath = " ";
+
+        /*if (fs::exists(filePath)) {
+            std::cout << "Fisierul giraffe.obj exista.\n";
+        }
+        else {
+            std::cerr << "Fisierul giraffe.obj nu exista.\n";
+        }*/
+
+
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        const float scaleFactor = 0.5f; // factorul de scalare
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X * scaleFactor;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y * scaleFactor;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z * scaleFactor;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verG[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesG[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &giraffeVAO);
+        glGenBuffers(1, &giraffeVBO);
+        glGenBuffers(1, &giraffeEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, giraffeVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verG), verG, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, giraffeEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesG), &indicesG, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(giraffeVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(giraffeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, giraffeVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, giraffeEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+
+
+}
+
+unsigned int indicesC[72000];
+objl::Vertex verC[82000];
+
+GLuint cheetahVAO, cheetahVBO, cheetahEBO;
+
+void renderCheetah(const Shader& shader)
+{
+    //cheetah
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-25.5f, 1.55f, -9.5f));
+    model = glm::scale(model, glm::vec3(6.f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    // Adaugarea rota?iei spre dreapta
+    float rotationAngle = 70.0f; // Rotire spre dreapta
+    model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotire spre dreapta pe axa OZ
+    shader.SetMat4("model", model);
+    renderCheetah();
+}
+
+
+
+void renderCheetah()
+{
+    // initialize (if necessary)
+    if (cheetahVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        const float scaleFactor = 0.5f; // factorul de scalare
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X * scaleFactor;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y * scaleFactor;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z * scaleFactor;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verC[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesC[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &cheetahVAO);
+        glGenBuffers(1, &cheetahVBO);
+        glGenBuffers(1, &cheetahEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, cheetahVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verC), verC, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cheetahEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesC), &indicesC, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(cheetahVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(cheetahVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, cheetahVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cheetahEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+void renderGround(const Shader& shader)
+{
+
+    //Ground
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-26.6f, -2.3f, -12.1f));
+    model = glm::scale(model, glm::vec3(2.3f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+    shader.SetMat4("model", model);
+    renderGround();
+
+
+
+    /*model = glm::mat4();
+    model = glm::translate(model, glm::vec3(3.25f, 0.4f, -19.95f));
+    model = glm::scale(model, glm::vec3(2.6f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+    shader.SetMat4("model", model);
+    renderGround();*/
+
+
+}
+
+unsigned int savanVAO = 0;
+
+void renderGrassGround(const Shader& shader)
+{
+
+    //Ground
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-7.6f, -2.3f, -12.1f));
+    model = glm::scale(model, glm::vec3(2.3f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+    shader.SetMat4("model", model);
+    renderGround();
+
+}
+void renderGround()
+{
+    unsigned int planeVBO;
+
+    float scaleFactor = 0.2f;
+
+    if (savanVAO == 0) {
+        // set up vertex data (and buffer(s)) and configure vertex attributes
+        //float planeVertices[] = {
+        //	// positions          // normals          // texcoords
+        //	52.7f*scaleFactor, -0.5f, 50.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, // Top-right corner (shifted further right)
+        //	-22.3f*scaleFactor, -0.5f, 50.0f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, // Top-left corner (shifted further right)
+        //	-22.3f*scaleFactor, -0.5f, -50.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, // Bottom-left corner
+        //	52.7f*scaleFactor, -0.5f, -50.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f  // Bottom-right corner
+        //};
+         // set up vertex data (and buffer(s)) and configure vertex attributes
+        float skew = 1.8f;
+        float skew1 = 1.0f;
+        float ceilingLength = 2.3f;
+        float ceilingWidth = 13.40f;
+        float ceilingWidthBack = 2.0f;
+        float ceilingHeight = 2.0f;
+
+
+
+
+        float planeVertices[] = {
+            // back face
+            -1.0f - ceilingLength, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+            1.0f,  1.0f - skew1, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+            1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right         
+            1.0f,  1.0f - skew1, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+            -1.0f - ceilingLength, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+            -1.0f - ceilingLength,  1.0f - skew1, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f, // top-left
+            // front face
+            -1.0f - ceilingLength, -1.0f,  1.0f + ceilingWidth,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+            1.0f, -1.0f,  1.0f + ceilingWidth,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f, // bottom-right
+            1.0f,  1.0f - skew1,  1.0f + ceilingWidth,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+            1.0f,  1.0f - skew1,  1.0f + ceilingWidth,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+            -1.0f - ceilingLength,  1.0f - skew1,  1.0f + ceilingWidth,  0.0f,  0.0f,  1.0f, 0.0f, 1.0f, // top-left
+            -1.0f - ceilingLength, -1.0f,  1.0f + ceilingWidth,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+            // left face
+            -1.0f - ceilingLength,  1.0f - skew1,  1.0f + ceilingWidth, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+            -1.0f - ceilingLength,  1.0f - skew1, -1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-left
+            -1.0f - ceilingLength, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+            -1.0f - ceilingLength, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+            -1.0f - ceilingLength, -1.0f,  1.0f + ceilingWidth, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+            -1.0f - ceilingLength,  1.0f - skew1,  1.0f + ceilingWidth, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+            // right face
+            1.0f,  1.0f - skew1,  1.0f + ceilingWidth,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+            1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+            1.0f,  1.0f - skew1, -1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right         
+            1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+            1.0f,  1.0f - skew1,  1.0f + ceilingWidth,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+            1.0f, -1.0f,  1.0f + ceilingWidth,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left     
+            // bottom face
+            -1.0f - ceilingLength, -1.0f, -1.0f + ceilingWidth + skew + 0.2f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
+            1.0f, -1.0f, -1.0f + ceilingWidth + skew + 0.2f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f, // top-left
+            1.0f, -1.0f,  1.0f - ceilingWidthBack,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+            1.0f, -1.0f,  1.0f - ceilingWidthBack,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+            -1.0f - ceilingLength, -1.0f,  1.0f - ceilingWidthBack,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+            -1.0f - ceilingLength, -1.0f, -1.0f + ceilingWidth + skew + 0.2f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
+            // top face
+            -1.0f - ceilingLength,  1.0f - skew1, -1.0f + ceilingWidth + skew + 0.2f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
+            1.0f,  1.0f - skew1 , 1.0f - ceilingWidthBack ,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+            1.0f,  1.0f - skew1, -1.0f + ceilingWidth + skew + 0.2f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right     
+            1.0f,  1.0f - skew1,  1.0f - ceilingWidthBack,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+            -1.0f - ceilingLength,  1.0f - skew1, -1.0f + ceilingWidth + skew + 0.2f ,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
+            -1.0f - ceilingLength,  1.0f - skew1,  1.0f - ceilingWidthBack,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f  // bottom-left   
+        };
+
+
+
+
+        // plane VAO
+        glGenVertexArrays(1, &savanVAO);
+        glGenBuffers(1, &planeVBO);
+        glBindVertexArray(savanVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), planeVertices, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindVertexArray(0);
+    }
+
+    glBindVertexArray(savanVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+unsigned int indicesST[72000];
+objl::Vertex verST[82000];
+
+GLuint savanTreeVAO, savanTreeVBO, savanTreeEBO;
+GLuint leafVAO, leafVBO, leafEBO;
+
+void renderSavannahTree()
+{
+    // initialize (if necessary)
+    if (savanTreeVAO == 0)
+    {
+        // Load tree object file
+        Loader.LoadFile("");
+
+        // Generate VAO, VBO, EBO for tree
+        glGenVertexArrays(1, &savanTreeVAO);
+        glGenBuffers(1, &savanTreeVBO);
+        glGenBuffers(1, &savanTreeEBO);
+
+        // Bind VAO for tree
+        glBindVertexArray(savanTreeVAO);
+
+        // Bind vertex buffer for tree
+        glBindBuffer(GL_ARRAY_BUFFER, savanTreeVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * Loader.LoadedVertices.size(), &Loader.LoadedVertices[0], GL_STATIC_DRAW);
+
+        // Bind index buffer for tree
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, savanTreeEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Loader.LoadedIndices.size(), &Loader.LoadedIndices[0], GL_STATIC_DRAW);
+
+        // Set vertex attribute pointers for tree
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+
+        // Unbind VAO for tree
+        glBindVertexArray(0);
+    }
+
+    // Draw the tree
+    glBindVertexArray(savanTreeVAO);
+    glDrawElements(GL_TRIANGLES, Loader.LoadedIndices.size(), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+}
+
+void renderSavannahTree(const Shader& shader)
+{
+    // Set?m matricea de modelare pentru copac
+    glm::mat4 model = glm::mat4(1.0f); // Identitate
+    model = glm::translate(model, glm::vec3(-23.5f, 0.0f, 11.5f)); // Transla?ie
+    model = glm::scale(model, glm::vec3(4.f)); // Scalare
+    model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotire pentru a-l face vertical
+
+    // Transmiterea matricei de modelare pentru copac la shader
+    shader.SetMat4("model", model);
+
+    // Activare textura frunzelor
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, leafTexture);
+    shader.SetInt("leafTexture", 1);
+
+    // Desen?m copacul (trunchiul ?i frunzele)
+    renderSavannahTree();
+}
+
+void renderBirdTree(const Shader& shader)
+{
+    // Set?m matricea de modelare pentru copac
+    glm::mat4 model = glm::mat4(1.0f); // Identitate
+    model = glm::translate(model, glm::vec3(19.5f, 0.0f, -23.0f)); // Transla?ie
+    model = glm::scale(model, glm::vec3(4.f)); // Scalare
+    model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotire pentru a-l face vertical
+
+    // Transmiterea matricei de modelare pentru copac la shader
+    shader.SetMat4("model", model);
+
+    // Activare textura frunzelor
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, leafTexture);
+    shader.SetInt("leafTexture", 1);
+
+    // Desen?m copacul (trunchiul ?i frunzele)
+    renderSavannahTree();
+}
+
+unsigned int indicesN[72000];
+objl::Vertex verN[82000];
+
+GLuint nestVAO, nestVBO, nestEBO;
+//GLuint leafVAO, leafVBO, leafEBO;
+
+void renderNest()
+{
+    // initialize (if necessary)
+    if (nestVAO == 0)
+    {
+        // Load tree object file
+        Loader.LoadFile("");
+
+        // Generate VAO, VBO, EBO for tree
+        glGenVertexArrays(1, &nestVAO);
+        glGenBuffers(1, &nestVBO);
+        glGenBuffers(1, &nestEBO);
+
+        // Bind VAO for tree
+        glBindVertexArray(nestVAO);
+
+        // Bind vertex buffer for tree
+        glBindBuffer(GL_ARRAY_BUFFER, nestVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * Loader.LoadedVertices.size(), &Loader.LoadedVertices[0], GL_STATIC_DRAW);
+
+        // Bind index buffer for tree
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, nestEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * Loader.LoadedIndices.size(), &Loader.LoadedIndices[0], GL_STATIC_DRAW);
+
+        // Set vertex attribute pointers for tree
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+
+        // Unbind VAO for tree
+        glBindVertexArray(0);
+    }
+
+    // Draw the tree
+    glBindVertexArray(nestVAO);
+    glDrawElements(GL_TRIANGLES, Loader.LoadedIndices.size(), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+}
+
+void renderNest(const Shader& shader)
+{
+    // Set?m matricea de modelare pentru copac
+    glm::mat4 model = glm::mat4(1.0f); // Identitate
+    model = glm::translate(model, glm::vec3(20.f, 7.1f, -23.3f)); // Transla?ie
+    model = glm::scale(model, glm::vec3(0.04f)); // Scalare
+    model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotire pentru a-l face vertical
+
+    // Transmiterea matricei de modelare pentru copac la shader
+    shader.SetMat4("model", model);
+
+    // Activare textura frunzelor
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, leafTexture);
+    shader.SetInt("leafTexture", 1);
+
+    // Desen?m copacul (trunchiul ?i frunzele)
+    renderNest();
+}
+
+void renderSecondNest(const Shader& shader)
+{
+    // Set?m matricea de modelare pentru copac
+    glm::mat4 model = glm::mat4(1.0f); // Identitate
+    model = glm::translate(model, glm::vec3(19.2f, 8.2f, -22.1f)); // Transla?ie
+    model = glm::scale(model, glm::vec3(0.03f)); // Scalare
+    model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotire pentru a-l face vertical
+
+    // Transmiterea matricei de modelare pentru copac la shader
+    shader.SetMat4("model", model);
+
+    // Activare textura frunzelor
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, leafTexture);
+    shader.SetInt("leafTexture", 1);
+
+    // Desen?m copacul (trunchiul ?i frunzele)
+    renderNest();
+}
+
+
+
+
+
+
 
 //void renderCube()
 //{
