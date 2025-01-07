@@ -2808,6 +2808,751 @@ void renderSecondNest(const Shader& shader)
     renderNest();
 }
 
+unsigned int indicesM[72000];
+objl::Vertex verM[2000000];
+
+GLuint monkeyVAO, monkeyVBO, monkeyEBO;
+
+void renderMonkey(const Shader& shader)
+{
+    //cheetah
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-29.5f, 3.0f, 27.5f));
+    model = glm::scale(model, glm::vec3(6.f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    // Adaugarea rota?iei spre dreapta
+    float rotationAngle = 70.0f; // Rotire spre dreapta
+    model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotire spre dreapta pe axa OZ
+    float rotationAngle1 = 90.0f; // Rotire spre dreapta
+    model = glm::rotate(model, glm::radians(rotationAngle1), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotire spre dreapta pe axa OZ
+    shader.SetMat4("model", model);
+    renderMonkey();
+}
+
+void renderMonkey()
+{
+    // initialize (if necessary)
+    if (monkeyVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        const float scaleFactor = 0.5f; // factorul de scalare
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X * scaleFactor;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y * scaleFactor;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z * scaleFactor;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verM[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesM[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &monkeyVAO);
+        glGenBuffers(1, &monkeyVBO);
+        glGenBuffers(1, &monkeyEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, monkeyVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verM), verM, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, monkeyEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesM), &indicesM, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(monkeyVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(monkeyVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, monkeyVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, monkeyEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+unsigned int indicesP[72000];
+objl::Vertex verP[2000000];
+
+GLuint pantherVAO, pantherVBO, pantherEBO;
+
+void renderPanther(const Shader& shader)
+{
+    //cheetah
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-25.5f, 0.0f, 5.5f));
+    model = glm::scale(model, glm::vec3(6.f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    // Adaugarea rota?iei spre dreapta
+    float rotationAngle = 170.0f; // Rotire spre dreapta
+    model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotire spre dreapta pe axa OZ
+    float rotationAngle1 = 90.0f; // Rotire spre dreapta
+    model = glm::rotate(model, glm::radians(rotationAngle1), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotire spre dreapta pe axa OZ
+    shader.SetMat4("model", model);
+    renderPanther();
+}
+
+void renderPanther()
+{
+    // initialize (if necessary)
+    if (pantherVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        const float scaleFactor = 0.5f; // factorul de scalare
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X * scaleFactor;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y * scaleFactor;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z * scaleFactor;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verP[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesP[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &pantherVAO);
+        glGenBuffers(1, &pantherVBO);
+        glGenBuffers(1, &pantherEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, pantherVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verP), verP, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pantherEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesP), &indicesP, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(pantherVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(pantherVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, pantherVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pantherEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+unsigned int indicesW[72000];
+objl::Vertex verW[2000000];
+
+GLuint wolfVAO, wolfVBO, wolfEBO;
+
+void renderWolf(const Shader& shader)
+{
+    //cheetah
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-7.5f, 0.0f, 2.5f));
+    model = glm::scale(model, glm::vec3(6.f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    // Adaugarea rota?iei spre dreapta
+    //float rotationAngle = 170.0f; // Rotire spre dreapta
+    //model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotire spre dreapta pe axa OZ
+    float rotationAngle1 = 90.0f; // Rotire spre dreapta
+    model = glm::rotate(model, glm::radians(rotationAngle1), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotire spre dreapta pe axa OZ
+    shader.SetMat4("model", model);
+    renderWolf();
+}
+
+void renderWolf()
+{
+    // initialize (if necessary)
+    if (wolfVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        const float scaleFactor = 0.5f; // factorul de scalare
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X * scaleFactor;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y * scaleFactor;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z * scaleFactor;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verW[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesW[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &wolfVAO);
+        glGenBuffers(1, &wolfVBO);
+        glGenBuffers(1, &wolfEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, wolfVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verW), verW, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, wolfEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesW), &indicesW, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(wolfVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(wolfVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, wolfVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, wolfEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+unsigned int indicesF[72000];
+objl::Vertex verF[2000000];
+
+GLuint foxVAO, foxVBO, foxEBO;
+
+void renderFox(const Shader& shader)
+{
+    //cheetah
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-7.5f, 0.0f, 10.5f));
+    model = glm::scale(model, glm::vec3(0.7f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    //// Adaugarea rota?iei spre dreapta
+    //float rotationAngle = 170.0f; // Rotire spre dreapta
+    //model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotire spre dreapta pe axa OZ
+    //float rotationAngle1 = 90.0f; // Rotire spre dreapta
+    //model = glm::rotate(model, glm::radians(rotationAngle1), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotire spre dreapta pe axa OZ
+    //float rotationAngle2 = 90.0f; // Rotire spre dreapta
+    //model = glm::rotate(model, glm::radians(rotationAngle2), glm::vec3(0.0f, 1.0f, 0.0f)); // Rotire spre dreapta pe axa OZ
+    shader.SetMat4("model", model);
+    renderFox();
+}
+
+void renderFox()
+{
+    // initialize (if necessary)
+    if (wolfVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        const float scaleFactor = 0.5f; // factorul de scalare
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X * scaleFactor;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y * scaleFactor;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z * scaleFactor;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verF[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesF[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &foxVAO);
+        glGenBuffers(1, &foxVBO);
+        glGenBuffers(1, &foxEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, foxVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verF), verF, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, foxEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesF), &indicesF, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(foxVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(foxVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, foxVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, foxEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+unsigned int indicesB[72000];
+objl::Vertex verB[2000000];
+
+GLuint bearVAO, bearVBO, bearEBO;
+
+void renderBear(const Shader& shader)
+{
+    //cheetah
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-7.5f, 0.0f, -11.5f));
+    model = glm::scale(model, glm::vec3(0.04f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    // Adaugarea rota?iei spre dreapta
+    //float rotationAngle = 170.0f; // Rotire spre dreapta
+    //model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotire spre dreapta pe axa OZ
+    //float rotationAngle1 = 90.0f; // Rotire spre dreapta
+    //model = glm::rotate(model, glm::radians(rotationAngle1), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotire spre dreapta pe axa OZ
+    shader.SetMat4("model", model);
+    renderBear();
+}
+
+void renderBear()
+{
+    // initialize (if necessary)
+    if (bearVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        const float scaleFactor = 0.5f; // factorul de scalare
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X * scaleFactor;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y * scaleFactor;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z * scaleFactor;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verB[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesB[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &bearVAO);
+        glGenBuffers(1, &bearVBO);
+        glGenBuffers(1, &bearEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, bearVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verB), verB, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bearEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesB), &indicesB, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(bearVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(bearVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, bearVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bearEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+unsigned int indicesD[72000];
+objl::Vertex verD[2000000];
+
+GLuint deerVAO, deerVBO, deerEBO;
+
+void renderDeer(const Shader& shader)
+{
+    //cheetah
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-7.5f, 0.0f, -3.5f));
+    model = glm::scale(model, glm::vec3(0.02f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    // Adaugarea rota?iei spre dreapta
+    //float rotationAngle = 170.0f; // Rotire spre dreapta
+    //model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotire spre dreapta pe axa OZ
+    float rotationAngle1 = 90.0f; // Rotire spre dreapta
+    model = glm::rotate(model, glm::radians(rotationAngle1), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotire spre dreapta pe axa OZ
+    shader.SetMat4("model", model);
+    renderDeer();
+}
+
+void renderDeer()
+{
+    // initialize (if necessary)
+    if (wolfVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        const float scaleFactor = 0.5f; // factorul de scalare
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X * scaleFactor;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y * scaleFactor;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z * scaleFactor;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verD[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesD[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &deerVAO);
+        glGenBuffers(1, &deerVBO);
+        glGenBuffers(1, &deerEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, deerVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verD), verD, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, deerEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesD), &indicesD, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(deerVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(deerVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, deerVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, deerEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+unsigned int indicesR[72000];
+objl::Vertex verR[2000000];
+
+GLuint rabbitVAO, rabbitVBO, rabbitEBO;
+float newY = 0.0;
+float aux = 0.008;
+
+void renderRabbit(const Shader& shader)
+{
+    //cheetah
+    if (newY >= 3.0f)
+        aux = -0.008f;
+    if (newY <= 0.0f)
+        aux = 0.008f;
+    newY += aux;
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-7.5f, newY, 15.5f));
+
+    model = glm::scale(model, glm::vec3(0.03f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+    // Adaugarea rota?iei spre dreapta
+    //float rotationAngle = 170.0f; // Rotire spre dreapta
+    //model = glm::rotate(model, glm::radians(rotationAngle), glm::vec3(0.0f, 0.0f, 1.0f)); // Rotire spre dreapta pe axa OZ
+    float rotationAngle1 = 90.0f; // Rotire spre dreapta
+    model = glm::rotate(model, glm::radians(rotationAngle1), glm::vec3(1.0f, 0.0f, 0.0f)); // Rotire spre dreapta pe axa OZ
+    shader.SetMat4("model", model);
+    renderRabbit();
+}
+
+void renderRabbit()
+{
+    // initialize (if necessary)
+    if (rabbitVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        const float scaleFactor = 0.5f; // factorul de scalare
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X * scaleFactor;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y * scaleFactor;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z * scaleFactor;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verR[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesR[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &rabbitVAO);
+        glGenBuffers(1, &rabbitVBO);
+        glGenBuffers(1, &rabbitEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, rabbitVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verR), verR, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rabbitEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesR), &indicesR, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(rabbitVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(rabbitVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, rabbitVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rabbitEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+
 
 
 
