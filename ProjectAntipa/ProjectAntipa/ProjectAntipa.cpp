@@ -2160,6 +2160,115 @@ void renderParallelepipedFromDoor3()
     glBindVertexArray(0);
 }
 
+unsigned int cubeVAO8 = 0;
+unsigned int cubeVBO8 = 0;
+
+void renderParallelepipedFromDoor3Front()
+{
+    // initialize (if necessary)
+    if (cubeVAO8 == 0)
+    {
+        float skew = 1.8f;
+        float height = 1.0f;
+        float width = 0.4f;
+        float skew2 = 2.0f;
+
+        float vertices[] = {
+
+            // front face
+            -1.0f + skew, -1.0f,  1.0f - skew2 ,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+            1.0f, -1.0f,  1.0f - skew2,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f, // bottom-right
+            1.0f,  1.0f + height,  1.0f - skew2 ,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+            1.0f,  1.0f + height,  1.0f - skew2 ,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+            -1.0f + skew,  1.0f + height,  1.0f - skew2,  0.0f,  0.0f,  1.0f, 0.0f, 1.0f, // top-left
+            -1.0f + skew, -1.0f,  1.0f - skew2,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+            // left face
+            -1.0f + skew,  1.0f + height,  1.0f + width, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+            -1.0f + skew,  1.0f + height, -1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-left
+            -1.0f + skew, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+            -1.0f + skew, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+            -1.0f + skew, -1.0f,  1.0f + width , -1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+            -1.0f + skew,  1.0f + height,  1.0f + width, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+            // right face
+            1.0f,  1.0f + height,  1.0f + width ,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+            1.0f , -1.0f, -1.0f ,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+            1.0f ,  1.0f + height, -1.0f ,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right         
+            1.0f , -1.0f, -1.0f ,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+            1.0f,  1.0f + height,  1.0f + width  ,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+            1.0f , -1.0f,  1.0f + width ,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left          
+        };
+        glGenVertexArrays(1, &cubeVAO8);
+        glGenBuffers(1, &cubeVBO8);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, cubeVBO8);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(cubeVAO8);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(cubeVAO8);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+void processInput(GLFWwindow* window)
+{
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+        glfwSetWindowShouldClose(window, true);
+
+    if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(FORWARD, (float)deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(BACKWARD, (float)deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(LEFT, (float)deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(RIGHT, (float)deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(UP, (float)deltaTime);
+    if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
+        pCamera->ProcessKeyboard(DOWN, (float)deltaTime);
+
+    if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
+        isLightRotating = true;
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        isLightRotating = false;
+
+
+    if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
+        int width, height;
+        glfwGetWindowSize(window, &width, &height);
+        pCamera->Reset(width, height);
+
+    }
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+    // make sure the viewport matches the new window dimensions; note that width and 
+    // height will be significantly larger than specified on retina displays.
+    pCamera->Reshape(width, height);
+}
+
+void mouse_callback(GLFWwindow* window, double xpos, double ypos)
+{
+    pCamera->MouseControl((float)xpos, (float)ypos);
+}
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yOffset)
+{
+    pCamera->ProcessMouseScroll((float)yOffset);
+}
+
+
 
 void renderCube()
 {
