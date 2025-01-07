@@ -509,7 +509,7 @@ void renderGround(const Shader& shader);
 void renderGround();
 
 //Camera 1
-
+// hei buna e faci
 void renderWolf(const Shader& shader);
 void renderWolf();
 
