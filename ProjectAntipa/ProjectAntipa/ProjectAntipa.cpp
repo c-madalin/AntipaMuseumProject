@@ -1276,6 +1276,148 @@ int main(int argc, char** argv)
         renderGlassWindows(shadowMappingShader);
         glDisable(GL_BLEND);
 
+        lightingShader.Use();
+        lightingShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        lightingShader.SetVec3("lightPos", lightPos1);
+        lightingShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lightingShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 model1 = glm::translate(glm::mat4(1.0), glm::vec3(-7.5f, 0.0f, 15.5f));
+        model1 = glm::scale(model1, glm::vec3(3.0f));
+        lightingShader.SetMat4("model", model1);
+
+        // Desenarea obiectului principal
+        /*glBindVertexArray(cubeVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);*/
+
+        // Desenarea obiectului pentru lumina
+        lampShader.Use();
+        lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lampShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 lampModel1 = glm::translate(glm::mat4(1.0), lightPos1);
+        lampModel1 = glm::scale(lampModel1, glm::vec3(0.2f));
+        lampShader.SetMat4("model", lampModel1);
+
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        // Setarea ?i desenarea celui de-al doilea obiect
+        lightingShader.Use();
+        lightingShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        lightingShader.SetVec3("lightPos", lightPos2);
+        lightingShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lightingShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 model2 = glm::translate(glm::mat4(1.0), glm::vec3(-7.5f, 0.0f, -11.5f));
+        model2 = glm::scale(model2, glm::vec3(3.0f));
+        lightingShader.SetMat4("model", model2);
+
+        //// Desenarea obiectului principal
+        //glBindVertexArray(cubeVAO);
+        //glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        // Desenarea obiectului pentru lumina
+        lampShader.Use();
+        lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lampShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 lampModel2 = glm::translate(glm::mat4(1.0), lightPos2);
+        lampModel2 = glm::scale(lampModel2, glm::vec3(0.2f));
+        lampShader.SetMat4("model", lampModel2);
+
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+        // Desenarea primului obiect
+        lightingShader.Use();
+        lightingShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        lightingShader.SetVec3("lightPos", lightPos3);
+        lightingShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lightingShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 model3 = glm::translate(glm::mat4(1.0), glm::vec3(-7.5f, 0.0f, 15.5f));
+        model3 = glm::scale(model3, glm::vec3(3.0f));
+        lightingShader.SetMat4("model", model3);
+
+        lampShader.Use();
+        lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lampShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 lampModel3 = glm::translate(glm::mat4(1.0), lightPos3);
+        lampModel3 = glm::scale(lampModel3, glm::vec3(0.2f));
+        lampShader.SetMat4("model", lampModel3);
+
+
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+        // Desenarea primului obiect
+        lightingShader.Use();
+        lightingShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        lightingShader.SetVec3("lightPos", lightPos4);
+        lightingShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lightingShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 model4 = glm::translate(glm::mat4(1.0), glm::vec3(-7.5f, 0.0f, 15.5f));
+        model4 = glm::scale(model4, glm::vec3(3.0f));
+        lightingShader.SetMat4("model", model4);
+
+        lampShader.Use();
+        lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lampShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 lampModel4 = glm::translate(glm::mat4(1.0), lightPos4);
+        lampModel4 = glm::scale(lampModel4, glm::vec3(0.2f));
+        lampShader.SetMat4("model", lampModel4);
+
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+
+
+        // Desenarea primului obiect
+        lightingShader.Use();
+        lightingShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        lightingShader.SetVec3("lightPos", lightPos5);
+        lightingShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lightingShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 model5 = glm::translate(glm::mat4(1.0), glm::vec3(-7.5f, 0.0f, 15.5f));
+        model5 = glm::scale(model5, glm::vec3(3.0f));
+        lightingShader.SetMat4("model", model5);
+
+        lampShader.Use();
+        lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lampShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 lampModel5 = glm::translate(glm::mat4(1.0), lightPos5);
+        lampModel5 = glm::scale(lampModel5, glm::vec3(0.2f));
+        lampModel5 = glm::rotate(lampModel5, glm::radians(90.f), glm::vec3(0.0f, 1.0f, 0.0f));
+        lampShader.SetMat4("model", lampModel5);
+
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+
+        // Desenarea primului obiect
+        lightingShader.Use();
+        lightingShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+        lightingShader.SetVec3("lightPos", lightPos6);
+        lightingShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lightingShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 model6 = glm::translate(glm::mat4(1.0), glm::vec3(-7.5f, 0.0f, 15.5f));
+        model6 = glm::scale(model6, glm::vec3(3.0f));
+        lightingShader.SetMat4("model", model6);
+
+        lampShader.Use();
+        lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+        lampShader.SetMat4("view", pCamera->GetViewMatrix());
+        glm::mat4 lampModel6 = glm::translate(glm::mat4(1.0), lightPos6);
+        lampModel6 = glm::scale(lampModel6, glm::vec3(0.2f));
+        lampModel6 = glm::rotate(lampModel6, glm::radians(90.f), glm::vec3(0.0f, 1.0f, 0.0f));
+        lampShader.SetMat4("model", lampModel6);
+
+
+        glBindVertexArray(lightVAO);
+        glDrawArrays(GL_TRIANGLES, 0, 36);
+
+
+
+
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         glfwSwapBuffers(window);
@@ -1289,24 +1431,157 @@ int main(int argc, char** argv)
     return 0;
 }
 
-// renders the 3D scene
-// --------------------
-void renderScene(const Shader& shader)
+void renderFloor1(const Shader& shader)
 {
     // floor
     glm::mat4 model;
     shader.SetMat4("model", model);
     renderFloor();
+}
 
-    // cube
-    model = glm::mat4();
-    model = glm::translate(model, glm::vec3(0.0f, 1.75f, 0.0));
-    model = glm::scale(model, glm::vec3(0.75f));
+
+// renders the 3D scene
+// --------------------
+
+void renderWall(const Shader& shader)
+{
+    // floor
+    glm::mat4 model, model1;
     shader.SetMat4("model", model);
-    renderCube();
+    renderFloor();
+
+    //Camera 1
+
+    //right from door room1
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-4.2f, 4.9f, -10.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedFromDoor();
+
+
+    // top door room1
+    model1 = glm::mat4();
+    model1 = glm::translate(model1, glm::vec3(-16.5f, 9.6f, -10.2));
+    model1 = glm::scale(model1, glm::vec3(5.2f));
+    shader.SetMat4("model", model1);
+    renderParallelepipedTopDoor();
+
+    // left from door room1
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-22.2f, 4.9f, -10.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedFromDoor();
+
+    // lateral wall room1
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-25.0f, 4.9f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedPerpendiculuarFromDoor();
+
+    // ceiling room1
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-4.2f, 20.1f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderCeiling();
+
+    // lateral wall room1
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-15.6f, 4.9f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedParalelFirstDoor();
+
+    //Camera 2
+
+    // left lateral wall room2
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-25.0f, 4.9f, -9.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedPerpendiculuarFromDoor();
+
+    //right lateral wall room2
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(5.2f, 4.9f, -9.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedPerpendiculuarFromDoor();
+
+    // ceiling room2
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-4.2f, 20.1f, -9.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderCeiling();
+
+    //front lateral wall room2
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(-15.6f, 4.9f, 26.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedParalelFirstDoor();
+
+    //Camera 3
+
+    // ceiling room3
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(27.0f, 20.1f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderCeiling();
+
+    //back lateral wall room3
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(15.5f, 4.9f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedParalelFirstDoor();
+
+    //front lateral wall room3
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(15.5f, 4.9f, -10.2));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedParalelFirstDoor();
+
+
+    //right lateral wall room3
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(37.2f, 4.9f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedPerpendiculuarFromDoor();
+
+    // top door room3
+    model1 = glm::mat4();
+    model1 = glm::translate(model1, glm::vec3(15.5f, 9.6f, -24.0f));
+    model1 = glm::scale(model1, glm::vec3(5.2f));
+    shader.SetMat4("model", model1);
+    renderParallelepipedTopDoorRoom3();
+
+    //back from door room3
+    model = glm::mat4();
+    //4.9
+    model = glm::translate(model, glm::vec3(-5.3f, 4.9f, -44.5));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedFromDoor3();
+
+    //front from door room3
+    model = glm::mat4();
+    //4.9
+    model = glm::translate(model, glm::vec3(-4.25f, 4.9f, -22.0));
+    model = glm::scale(model, glm::vec3(5.2f));
+    shader.SetMat4("model", model);
+    renderParallelepipedFromDoor3Front();
 }
 
 unsigned int planeVAO = 0;
+
 void renderFloor()
 {
     unsigned int planeVBO;
@@ -1341,6 +1616,7 @@ void renderFloor()
     glBindVertexArray(planeVAO);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 }
+
 
 
 // renderCube() renders a 1x1 3D cube in NDC.
