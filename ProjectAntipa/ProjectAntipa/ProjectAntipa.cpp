@@ -4247,9 +4247,736 @@ void renderPelican()
     glBindVertexArray(0);
 }
 
+void renderHeron(const Shader& shader)
+{
+
+    //parrot
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(25.0f, 4.0f, -23.0f));
+    model = glm::scale(model, glm::vec3(0.01f));
+    model = glm::rotate(model, glm::radians(90.f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+
+    shader.SetMat4("model", model);
+    renderHeron();
+}
+
+unsigned int indicesHeron[720000];
+objl::Vertex verHeron[820000];
+GLuint  heronVAO, heronVBO, heronEBO;
+
+void renderHeron()
+{
+    // initialize (if necessary)
+    if (heronVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
 
 
 
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verHeron[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesHeron[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &heronVAO);
+        glGenBuffers(1, &heronVBO);
+        glGenBuffers(1, &heronEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, heronVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verHeron), verHeron, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, heronEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesHeron), &indicesHeron, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(heronVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(heronVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, heronVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, heronEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+unsigned int indicesBabyDuck[72000];
+objl::Vertex verBabyDuck[82000];
+GLuint babyDuckVAO, babyDuckVBO, babyDuckEBO;
+
+void renderBabyDuck(const Shader& shader)
+{
+
+    //duck
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(14.0f, 1.0f, -23.0f));
+    model = glm::scale(model, glm::vec3(0.1f));
+    model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(50.f), glm::vec3(0.0f, -1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(10.f), glm::vec3(0.0f, 0.0f, 1.0f));
+    shader.SetMat4("model", model);
+    renderBabyDuck();
+}
+
+
+
+void renderBabyDuck()
+{
+    // initialize (if necessary)
+    if (babyDuckVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verBabyDuck[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesBabyDuck[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &babyDuckVAO);
+        glGenBuffers(1, &babyDuckVBO);
+        glGenBuffers(1, &babyDuckEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, babyDuckVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verBabyDuck), verBabyDuck, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, babyDuckEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesBabyDuck), &indicesBabyDuck, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(babyDuckVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(babyDuckVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, babyDuckVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, babyDuckEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+unsigned int indicesSecondDuck[72000];
+objl::Vertex verSecondDuck[82000];
+GLuint duckSecondVAO, duckSecondVBO, duckSecondEBO;
+
+void renderSecondDuck(const Shader& shader)
+{
+
+    //duck
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(11.f, 0.0f, -23.0f));
+    model = glm::scale(model, glm::vec3(0.06f));
+    model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.0f, 1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(90.f), glm::vec3(-1.0f, 0.0f, 0.0f));
+    shader.SetMat4("model", model);
+    renderSecondDuck();
+}
+
+
+
+
+void renderSecondDuck()
+{
+    // initialize (if necessary)
+    if (duckSecondVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verSecondDuck[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesDuck[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &duckSecondVAO);
+        glGenBuffers(1, &duckSecondVBO);
+        glGenBuffers(1, &duckSecondEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, duckSecondVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verSecondDuck), verSecondDuck, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, duckSecondEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesDuck), &indicesDuck, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(duckSecondVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(duckSecondVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, duckSecondVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, duckSecondEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+void renderRedBird(const Shader& shader)
+{
+
+    //parrot
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(19.7f, 7.12f, -23.3f));
+    model = glm::scale(model, glm::vec3(0.2f));
+    model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.0f, 0.0f, -1.0f));
+    model = glm::rotate(model, glm::radians(90.f), glm::vec3(1.0f, 0.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(90.f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+
+
+
+    shader.SetMat4("model", model);
+    renderRedBird();
+}
+
+unsigned int indicesRedBird[720000];
+objl::Vertex verRedBird[820000];
+GLuint  redBirdVAO, redBirdVBO, redBirdEBO;
+
+void renderRedBird()
+{
+    // initialize (if necessary)
+    if (redBirdVAO == 0)
+    {
+
+        std::vector<float> verticess;
+        std::vector<float> indicess;
+
+
+
+        Loader.LoadFile("");
+        objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verRedBird[j] = v;
+        }
+        for (int j = 0; j < verticess.size(); j++)
+        {
+            vertices[j] = verticess.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicess.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesRedBird[j] = indicess.at(j);
+        }
+
+        glGenVertexArrays(1, &redBirdVAO);
+        glGenBuffers(1, &redBirdVBO);
+        glGenBuffers(1, &redBirdEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, redBirdVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verRedBird), verRedBird, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, redBirdEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesRedBird), &indicesRedBird, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(redBirdVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(redBirdVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, redBirdVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, redBirdEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+float pigeonZ = -22.4f;
+float pigeonAuxY = 0.00008;
+float pigeonAuxZ = 0.008;
+bool ok = false;
+
+void renderPigeon(const Shader& shader)
+{
+    glm::mat4 model;
+    model = glm::mat4(1.0f); // Initialize to identity matrix
+
+    // Update pigeonZ
+    if (pigeonZ >= -22.4f)
+    {
+        pigeonAuxZ = -0.008f;
+    }
+
+    if (pigeonZ <= -22.f)
+    {
+        pigeonAuxZ = 0.008f;
+    }
+
+    pigeonZ += pigeonAuxZ;
+
+    // Update rotation offset
+    static float Offset = 0.0f;
+    const float Increment = 0.005f;
+    Offset += Increment;
+
+    // Define a smaller radius for the circular path
+    float smallerRadius = 3.0f; // Change this value for a smaller or larger radius
+
+    // Calculate new positions based on the smaller radius
+    float x = 19.5f + smallerRadius * cos(Offset);
+    float z = pigeonZ + smallerRadius * sin(Offset);
+
+    // Apply the transformations
+    model = glm::translate(model, glm::vec3(x, 8.4f, z));
+
+    // Rotate around its own axis
+    model = glm::rotate(model, Offset - 0.5f, glm::vec3(0.0f, -1.0f, 0.0f));
+
+    // Apply the additional rotation (90 degrees)
+    model = glm::rotate(model, glm::radians(90.f), glm::vec3(0.0f, -1.0f, 0.0f));
+
+    // Apply scaling
+    model = glm::scale(model, glm::vec3(3.f));
+
+    // Conditional rotation (if needed)
+    if (!ok)
+    {
+        ok = true;
+        model = glm::rotate(model, glm::radians(180.f), glm::vec3(1.0f, 0.0f, 0.0f));
+        std::cout << "hereee";
+    }
+
+    shader.SetMat4("model", model);
+    renderPigeon();
+}
+
+
+
+unsigned int indicesPigeon[720000];
+objl::Vertex verPigeon[820000];
+GLuint  pigeonVAO, pigeonVBO, pigeonEBO;
+
+void renderPigeon()
+{
+    // initialize (if necessary)
+    if (pigeonVAO == 0)
+    {
+
+        std::vector<float> verticesC;
+        std::vector<float> indicesC;
+
+
+
+        Loader.LoadFile("");
+
+        ;		objl::Mesh curMesh = Loader.LoadedMeshes[0];
+        int size = curMesh.Vertices.size();
+        objl::Vertex v;
+        for (int j = 0; j < curMesh.Vertices.size(); j++)
+        {
+            v.Position.X = (float)curMesh.Vertices[j].Position.X;
+            v.Position.Y = (float)curMesh.Vertices[j].Position.Y;
+            v.Position.Z = (float)curMesh.Vertices[j].Position.Z;
+            v.Normal.X = (float)curMesh.Vertices[j].Normal.X;
+            v.Normal.Y = (float)curMesh.Vertices[j].Normal.Y;
+            v.Normal.Z = (float)curMesh.Vertices[j].Normal.Z;
+            v.TextureCoordinate.X = (float)curMesh.Vertices[j].TextureCoordinate.X;
+            v.TextureCoordinate.Y = (float)curMesh.Vertices[j].TextureCoordinate.Y;
+
+
+            verPigeon[j] = v;
+        }
+        for (int j = 0; j < verticesC.size(); j++)
+        {
+            vertices[j] = verticesC.at(j);
+        }
+
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+
+            indicesC.push_back((float)curMesh.Indices[j]);
+
+        }
+        for (int j = 0; j < curMesh.Indices.size(); j++)
+        {
+            indicesPigeon[j] = indicesC.at(j);
+        }
+
+        glGenVertexArrays(1, &pigeonVAO);
+        glGenBuffers(1, &pigeonVBO);
+        glGenBuffers(1, &pigeonEBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, pigeonVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(verPigeon), verPigeon, GL_DYNAMIC_DRAW);
+
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pigeonEBO);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indicesPigeon), &indicesPigeon, GL_DYNAMIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(pigeonVAO);
+        glEnableVertexAttribArray(0);
+
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(pigeonVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, pigeonVBO);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pigeonEBO);
+    int indexArraySize;
+    glGetBufferParameteriv(GL_ELEMENT_ARRAY_BUFFER, GL_BUFFER_SIZE, &indexArraySize);
+    glDrawElements(GL_TRIANGLES, indexArraySize / sizeof(unsigned int), GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+void renderGrassGroundRoom3(const Shader& shader)
+{
+
+    //Ground
+
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(24.5f, -7.1f, -20.f));
+    model = glm::scale(model, glm::vec3(7.1f));
+    model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+    shader.SetMat4("model", model);
+    renderGround();
+
+
+
+    /*model = glm::mat4();
+    model = glm::translate(model, glm::vec3(3.25f, 0.4f, -19.95f));
+    model = glm::scale(model, glm::vec3(2.6f));
+    model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+    shader.SetMat4("model", model);
+    renderGround();*/
+
+
+}
+
+
+void renderGlassWindows(const Shader& shader)
+{
+    //window 
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(26.f, 0.0f, -45.7f));
+    model = glm::scale(model, glm::vec3(2.3f));
+    shader.SetMat4("model", model);
+    renderGlassWindows();
+
+
+    //window 
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(13.f, 0.0f, -45.7f));
+    model = glm::scale(model, glm::vec3(2.3f));
+    shader.SetMat4("model", model);
+    renderGlassWindows();
+
+    //window 
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(6.f, 0.0f, -45.7f));
+    model = glm::scale(model, glm::vec3(2.3f));
+    shader.SetMat4("model", model);
+    renderGlassWindows();
+
+    //window 
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(19.5f, 0.0f, -45.7f));
+    model = glm::scale(model, glm::vec3(2.3f));
+    shader.SetMat4("model", model);
+    renderGlassWindows();
+
+}
+
+unsigned int glassVAO = 0;
+unsigned int glassVBO = 0;
+void renderGlassWindows()
+{
+    float height = 2.75f;
+    // initialize (if necessary)
+    if (glassVAO == 0)
+    {
+        float vertices[] = {
+            // back face
+            -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+            1.0f,  1.0f + height, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+            1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 0.0f, // bottom-right         
+            1.0f,  1.0f + height, -1.0f,  0.0f,  0.0f, -1.0f, 1.0f, 1.0f, // top-right
+            -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 0.0f, // bottom-left
+            -1.0f,  1.0f + height, -1.0f,  0.0f,  0.0f, -1.0f, 0.0f, 1.0f, // top-left
+            // front face
+            -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+            1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 0.0f, // bottom-right
+            1.0f,  1.0f + height,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+            1.0f,  1.0f + height,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f, 1.0f, // top-right
+            -1.0f,  1.0f + height,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 1.0f, // top-left
+            -1.0f, -1.0f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f, 0.0f, // bottom-left
+            // left face
+            -1.0f,  1.0f + height,  1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+            -1.0f,  1.0f + height, -1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-left
+            -1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+            -1.0f, -1.0f, -1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-left
+            -1.0f, -1.0f,  1.0f, -1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+            -1.0f,  1.0f + height,  1.0f, -1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-right
+            // right face
+            1.0f,  1.0f + height,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+            1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+            1.0f,  1.0f + height, -1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 1.0f, // top-right         
+            1.0f, -1.0f, -1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 1.0f, // bottom-right
+            1.0f,  1.0f + height,  1.0f,  1.0f,  0.0f,  0.0f, 1.0f, 0.0f, // top-left
+            1.0f, -1.0f,  1.0f,  1.0f,  0.0f,  0.0f, 0.0f, 0.0f, // bottom-left     
+            // bottom face
+            -1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
+            1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 1.0f, // top-left
+            1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+            1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 1.0f, 0.0f, // bottom-left
+            -1.0f, -1.0f,  1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 0.0f, // bottom-right
+            -1.0f, -1.0f, -1.0f,  0.0f, -1.0f,  0.0f, 0.0f, 1.0f, // top-right
+            // top face
+            -1.0f,  1.0f + height, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
+            1.0f,  1.0f + height , 1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+            1.0f,  1.0f + height, -1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 1.0f, // top-right     
+            1.0f,  1.0f + height,  1.0f,  0.0f,  1.0f,  0.0f, 1.0f, 0.0f, // bottom-right
+            -1.0f,  1.0f + height, -1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 1.0f, // top-left
+            -1.0f,  1.0f + height,  1.0f,  0.0f,  1.0f,  0.0f, 0.0f, 0.0f  // bottom-left        
+        };
+        glGenVertexArrays(1, &glassVAO);
+        glGenBuffers(1, &glassVBO);
+        // fill buffer
+        glBindBuffer(GL_ARRAY_BUFFER, glassVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+        // link vertex attributes
+        glBindVertexArray(glassVAO);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+        glBindVertexArray(0);
+    }
+    // render Cube
+    glBindVertexArray(glassVAO);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+}
+
+void renderWood(const Shader& shader)
+{
+
+    //wood stander
+    glm::mat4 model;
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(6.f, 2.8f, -45.7f));
+    model = glm::scale(model, glm::vec3(2.f));
+    model = glm::rotate(model, glm::radians(90.f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.0f, -1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(180.f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+
+
+    shader.SetMat4("model", model);
+    renderWood();
+    //wood stander
+
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(19.5f, 2.7f, -45.7f));
+    model = glm::scale(model, glm::vec3(2.f));
+    model = glm::rotate(model, glm::radians(90.f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.0f, -1.0f, 0.0f));
+    model = glm::rotate(model, glm::radians(180.f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+
+    shader.SetMat4("model", model);
+    renderWood();
+    //wood stander
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(26.f, 2.7f, -45.7f));
+    model = glm::scale(model, glm::vec3(2.f));
+    model = glm::rotate(model, glm::radians(90.f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.0f, -1.0f, 0.0f));
+
+
+    shader.SetMat4("model", model);
+    renderWood();
+    //wood stander
+    model = glm::mat4();
+    model = glm::translate(model, glm::vec3(13.f, 2.7f, -45.7f));
+    model = glm::scale(model, glm::vec3(2.f));
+    model = glm::rotate(model, glm::radians(90.f), glm::vec3(0.0f, 0.0f, 1.0f));
+    model = glm::rotate(model, glm::radians(180.f), glm::vec3(0.0f, -1.0f, 0.0f));
+
+
+    shader.SetMat4("model", model);
+    renderWood();
+
+
+
+}
 
 
 
